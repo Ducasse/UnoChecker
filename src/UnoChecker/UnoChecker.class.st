@@ -5,14 +5,32 @@ Class {
 		'stream',
 		'currentLine',
 		'players',
-		'playerNumber'
+		'playerNumber',
+		'actions',
+		'actionIndex'
 	],
 	#category : #UnoChecker
 }
 
 { #category : #'as yet unclassified' }
+UnoChecker >> actionLine: aString [ 
+	
+	| cl splitString |
+	actionIndex := actionIndex + 1.
+	splitString := aString splitOn: Character space.
+	cl := UnoAction subclasses detect: [ :cls | cls canDigest: splitString ].
+	actions add: (cl newFrom: splitString).
+
+]
+
+{ #category : #'as yet unclassified' }
 UnoChecker >> arePlayersValid [
 	^ playerNumber = players size
+]
+
+{ #category : #'as yet unclassified' }
+UnoChecker >> currentAction [ 	
+	^ actions at: actionIndex
 ]
 
 { #category : #operate }
@@ -49,7 +67,9 @@ UnoChecker >> extractPlayers [
 UnoChecker >> initialize [
 
 	super initialize.
-	players := OrderedCollection new
+	players := OrderedCollection new.
+	actions := OrderedCollection new.
+	actionIndex := 0. 
 ]
 
 { #category : #testing }

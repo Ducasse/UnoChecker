@@ -40,6 +40,41 @@ Color
 	self deny: checker arePlayersValid 
 ]
 
+{ #category : #'tests - actions' }
+UnoCheckerTest >> testForcedDrawAction [
+	| checker |
+	checker := UnoChecker new.
+	checker actionLine: '+2 blue Carol'.
+	
+	self assert: checker currentAction name equals: 'forced'.
+	self assert: checker currentAction color equals: 'blue'.
+	self assert: checker currentAction level equals: 2.
+	self assert: checker currentAction player equals: 'Carol'.
+]
+
+{ #category : #'tests - actions' }
+UnoCheckerTest >> testForcedDrawAction2 [
+	| checker |
+	checker := UnoChecker new.
+	checker actionLine: '+4 blue Carol'.
+	
+	self assert: checker currentAction name equals: 'forced'.
+	self assert: checker currentAction color equals: 'blue'.
+	self assert: checker currentAction level equals: 4.
+	self assert: checker currentAction player equals: 'Carol'.
+]
+
+{ #category : #'tests - actions' }
+UnoCheckerTest >> testJokerAction [
+	| checker |
+	checker := UnoChecker new.
+	checker actionLine: 'joker blue Frank'.
+	
+	self assert: checker currentAction name equals: 'joker'.
+	self assert: checker currentAction color equals: 'blue'.
+	self assert: checker currentAction player equals: 'Frank'.
+]
+
 { #category : #'tests - players' }
 UnoCheckerTest >> testNumberOfPlayers [
 	| checker |
@@ -53,6 +88,17 @@ Frank
 ' readStream.
 	checker extractPlayerNumberDeclaration.
 	self assert: checker numberOfPlayers equals: 6
+]
+
+{ #category : #'tests - actions' }
+UnoCheckerTest >> testNumberedAction [
+	| checker |
+	checker := UnoChecker new.
+	checker actionLine: '5 red Alice'.
+	
+	self assert: checker currentAction name equals: 'numbered'.
+	self assert: checker currentAction color equals: 'red'.
+	self assert: checker currentAction player equals: 'Alice'.
 ]
 
 { #category : #'tests - players' }
@@ -83,6 +129,28 @@ Frank
 	self
 		assert: checker players asArray
 		equals: #( 'Alice' 'Bob' 'Carol' 'Dave' 'Erin' 'Frank' )
+]
+
+{ #category : #'tests - actions' }
+UnoCheckerTest >> testReverseAction [
+	| checker |
+	checker := UnoChecker new.
+	checker actionLine: 'reverse blue Frank'.
+	
+	self assert: checker currentAction name equals: 'reverse'.
+	self assert: checker currentAction color equals: 'blue'.
+	self assert: checker currentAction player equals: 'Frank'.
+]
+
+{ #category : #'tests - actions' }
+UnoCheckerTest >> testSkipAction [
+	| checker |
+	checker := UnoChecker new.
+	checker actionLine: 'skip blue Frank'.
+	
+	self assert: checker currentAction name equals: 'skip'.
+	self assert: checker currentAction color equals: 'blue'.
+	self assert: checker currentAction player equals: 'Frank'.
 ]
 
 { #category : #'tests - players' }
