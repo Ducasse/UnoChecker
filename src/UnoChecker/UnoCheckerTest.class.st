@@ -4,7 +4,38 @@ Class {
 	#category : #UnoChecker
 }
 
-{ #category : #'tests - players' }
+{ #category : #'tests - players play' }
+UnoCheckerTest >> testAlice [
+	| player |
+	player := UnoPlayer new.
+	player name: 'Alice'.
+	self assert: player cardCount equals: 7.
+	
+]
+
+{ #category : #'tests - players play' }
+UnoCheckerTest >> testAliceDrawsACard [
+	| player |
+	player := UnoPlayer new.
+	player name: 'Alice'.
+	player drawsACard.
+	self assert: player cardCount equals: 8.
+	
+	
+]
+
+{ #category : #'tests - players play' }
+UnoCheckerTest >> testAlicePlaysACard [
+	| player |
+	player := UnoPlayer new.
+	player name: 'Alice'.
+	player playACard.
+	self assert: player cardCount equals: 6.
+	
+	
+]
+
+{ #category : #'tests - player declaration' }
 UnoCheckerTest >> testArePlayerValid [
 	| checker |
 	checker := UnoChecker new stream: '6 players
@@ -21,7 +52,7 @@ Frank
 	self assert: checker arePlayersValid 
 ]
 
-{ #category : #'tests - players' }
+{ #category : #'tests - player declaration' }
 UnoCheckerTest >> testBogusPlayers [
 	| checker |
 	checker := UnoChecker new stream: '6 players
@@ -38,6 +69,16 @@ Color
 	checker extractPlayerNumberDeclaration.
 	checker extractPlayers.
 	self deny: checker arePlayersValid 
+]
+
+{ #category : #'tests - actions' }
+UnoCheckerTest >> testDraw [
+	| checker |
+	checker := UnoChecker new.
+	checker actionLine: 'draw Bob'.
+	
+	self assert: checker currentAction name equals: 'draw'.
+	self assert: checker currentAction player equals: 'Bob'.
 ]
 
 { #category : #'tests - actions' }
@@ -75,7 +116,7 @@ UnoCheckerTest >> testJokerAction [
 	self assert: checker currentAction player equals: 'Frank'.
 ]
 
-{ #category : #'tests - players' }
+{ #category : #'tests - player declaration' }
 UnoCheckerTest >> testNumberOfPlayers [
 	| checker |
 	checker := UnoChecker new stream: '6 players
@@ -101,7 +142,7 @@ UnoCheckerTest >> testNumberedAction [
 	self assert: checker currentAction player equals: 'Alice'.
 ]
 
-{ #category : #'tests - players' }
+{ #category : #'tests - player declaration' }
 UnoCheckerTest >> testPlayerLineShouldBeANumberFollowedByPlayers [
 	| checker |
 	checker := UnoChecker new.
@@ -112,7 +153,7 @@ UnoCheckerTest >> testPlayerLineShouldBeANumberFollowedByPlayers [
 	self assert: (checker isPlayerNumberValid: '12 players')
 ]
 
-{ #category : #'tests - players' }
+{ #category : #'tests - player declaration' }
 UnoCheckerTest >> testPlayers [
 	| checker |
 	checker := UnoChecker new stream: '6 players
@@ -153,7 +194,7 @@ UnoCheckerTest >> testSkipAction [
 	self assert: checker currentAction player equals: 'Frank'.
 ]
 
-{ #category : #'tests - players' }
+{ #category : #'tests - player declaration' }
 UnoCheckerTest >> testTooFewPlayers [
 	| checker |
 	checker := UnoChecker new stream: '6 players
@@ -170,7 +211,7 @@ Dave
 
 ]
 
-{ #category : #'tests - players' }
+{ #category : #'tests - player declaration' }
 UnoCheckerTest >> testTooManyPlayers [
 	| checker |
 	checker := UnoChecker new stream: '3 players
