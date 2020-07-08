@@ -14,11 +14,30 @@ Carol
 Dave
 Erin
 Frank
+7 red
 ' readStream.
 	checker extractPlayerNumberDeclaration.
-
-	self shouldnt: [ checker extractPlayers ] raise: UnoError.
+	checker extractPlayers.
 	self assert: checker arePlayersValid 
+]
+
+{ #category : #'tests - players' }
+UnoCheckerTest >> testBogusPlayers [
+	| checker |
+	checker := UnoChecker new stream: '6 players
+Alice
+Bob
+Carol
+Dave
+Erin
+Frank
++2
+Color 
+8 red
+' readStream.
+	checker extractPlayerNumberDeclaration.
+	checker extractPlayers.
+	self deny: checker arePlayersValid 
 ]
 
 { #category : #'tests - players' }
@@ -57,6 +76,7 @@ Carol
 Dave
 Erin
 Frank
+7 red
 ' readStream.
 	checker extractPlayerNumberDeclaration.
 	checker extractPlayers.
@@ -77,21 +97,22 @@ Dave
 5 red Alice
 ' readStream.
 	checker extractPlayerNumberDeclaration.
-	self should: [ checker extractPlayers ] raise: UnoError.
+	checker extractPlayers.
+	self deny: checker arePlayersValid 
 
 ]
 
 { #category : #'tests - players' }
 UnoCheckerTest >> testTooManyPlayers [
 	| checker |
-	self skip.
 	checker := UnoChecker new stream: '3 players
 Alice
 Bob
 Carol
 Dave
+6 red
 ' readStream.
 	checker extractPlayerNumberDeclaration.
-	self should: [ checker extractPlayers ] raise: UnoError.
-
+	checker extractPlayers.
+	self deny: checker arePlayersValid 
 ]

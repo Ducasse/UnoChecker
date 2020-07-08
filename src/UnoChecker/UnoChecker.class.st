@@ -33,12 +33,16 @@ UnoChecker >> extractPlayerNumberDeclaration [
 { #category : #accessing }
 UnoChecker >> extractPlayers [ 
 
-	1 to: self numberOfPlayers do: [ :index | 
+"	1 to: self numberOfPlayers do: [ :index | 
 		| line |
 		line := self currentLine.
 		line first isDigit 
 			ifTrue: [ UnoError signal: 'The number of player is not consistent with the player list' ].
-		players add: line ]
+		players add: line ]"
+	
+	| line | 
+	[ line := self currentLine.
+	line first isDigit ] whileFalse: [ players add: line ]
 ]
 
 { #category : #initialization }
