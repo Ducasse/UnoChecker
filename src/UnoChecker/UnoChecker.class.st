@@ -10,6 +10,11 @@ Class {
 	#category : #UnoChecker
 }
 
+{ #category : #'as yet unclassified' }
+UnoChecker >> arePlayersValid [
+	^ playerNumber = players size
+]
+
 { #category : #operate }
 UnoChecker >> currentLine [
 	currentLine := stream upTo: Character cr.
@@ -26,10 +31,14 @@ UnoChecker >> extractPlayerNumberDeclaration [
 ]
 
 { #category : #accessing }
-UnoChecker >> extractPlayers [
+UnoChecker >> extractPlayers [ 
+
 	1 to: self numberOfPlayers do: [ :index | 
-			"players at: index put: self currentLine"
-			players add: self currentLine ]
+		| line |
+		line := self currentLine.
+		line first isDigit 
+			ifTrue: [ UnoError signal: 'The number of player is not consistent with the player list' ].
+		players add: line ]
 ]
 
 { #category : #initialization }

@@ -5,6 +5,23 @@ Class {
 }
 
 { #category : #'tests - players' }
+UnoCheckerTest >> testArePlayerValid [
+	| checker |
+	checker := UnoChecker new stream: '6 players
+Alice
+Bob
+Carol
+Dave
+Erin
+Frank
+' readStream.
+	checker extractPlayerNumberDeclaration.
+
+	self shouldnt: [ checker extractPlayers ] raise: UnoError.
+	self assert: checker arePlayersValid 
+]
+
+{ #category : #'tests - players' }
 UnoCheckerTest >> testNumberOfPlayers [
 	| checker |
 	checker := UnoChecker new stream: '6 players
@@ -46,4 +63,35 @@ Frank
 	self
 		assert: checker players asArray
 		equals: #( 'Alice' 'Bob' 'Carol' 'Dave' 'Erin' 'Frank' )
+]
+
+{ #category : #'tests - players' }
+UnoCheckerTest >> testTooFewPlayers [
+	| checker |
+	checker := UnoChecker new stream: '6 players
+Alice
+Bob
+Carol
+Dave
+8 red
+5 red Alice
+' readStream.
+	checker extractPlayerNumberDeclaration.
+	self should: [ checker extractPlayers ] raise: UnoError.
+
+]
+
+{ #category : #'tests - players' }
+UnoCheckerTest >> testTooManyPlayers [
+	| checker |
+	self skip.
+	checker := UnoChecker new stream: '3 players
+Alice
+Bob
+Carol
+Dave
+' readStream.
+	checker extractPlayerNumberDeclaration.
+	self should: [ checker extractPlayers ] raise: UnoError.
+
 ]
